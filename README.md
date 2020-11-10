@@ -6,7 +6,7 @@ According to Evan You, Vue 3 will be faster, smaller, more maintainable, and eas
 
 ## 1. [Fragments](https://v3.vuejs.org/guide/migration/fragments.html#overview), which allows you to have components with multiple root nodes.
 
-**- In 2.x**
+**- In Vue 2.x**
 
 Multi-root components were not supported and would emit a warning when a user accidentally created one. As a result, many components are wrapped in a single `<div>` in order to fix this error.
 
@@ -19,7 +19,7 @@ Multi-root components were not supported and would emit a warning when a user ac
 </template>
 ```
 
-**- In 3.x**
+**- In Vue 3.x**
 
 Components now can have multiple root nodes! However, this does require developers to explicitly define where attributes should be distributed.
 
@@ -83,18 +83,14 @@ The Composition API `Setup` Method
   - Lifecycle methods
 - Does not have access to *this*.
 - Optional first argument is `props`.
-  It is reactive and can be watched.
 
 ```js
-import { watch } from 'vue'
 export default {
   props: {
     name: String
   },
   setup(props) {
-    watch(() => {
-      console.log(props.name)
-    })
+    console.log(props.name)
   }
 }
 ```
@@ -188,29 +184,6 @@ For such cases, we can use the `provide` and `inject` pair. Parent components ca
 
 Because `provide/inject` bindings are not reactive by default. We can change this behavior by passing a `ref` **property** or `reactive` **object** to provide.
 
-```js
-<script>
-import HelloWorld from './components/HelloWorld.vue'
-import { ref, provide, reactive} from 'vue'
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  },
-  setup() {
-    const msg = ref('Hello Vue 3.0 + Vite')
-    const reactObj = reactive({
-      count: 0
-    })
-    const showText = ref(false)
-    provide('msg', msg)
-    provide('reactObj', reactObj)
-    return { showText, reactObj}
-  }
-}
-</script>
-```
-
 [Template Refs](https://v3.vuejs.org/guide/composition-api-template-refs.html)
 
 ```js
@@ -286,3 +259,113 @@ Usage inside `v-for`
   }
 </script>
 ```
+
+## 4. Using with Suspense
+
+Async components are suspensible by default. This means if it has a `<Suspense>` in the parent chain, it will be treated as an async dependency of that `<Suspense>`. In this case, the loading state will be controlled by the `<`Suspense>`, and the component's own loading, error, delay and timeout options will be ignored.
+
+The async component can opt-out of `Suspense` control and let the component always control its own loading state by specifying `suspensible: false` in its options.
+
+You can check the list of available options in the [API Reference](https://v3.vuejs.org/api/global-api.html#defineasynccomponent)
+
+## 5. Multiple `v-model` bindings
+
+We can now create multiple `v-model` bindings on a single component instance.
+
+[Example](https://codepen.io/team/Vue/pen/GRoPPrM)
+
+## 6. Better reactivity
+
+To demonstrate reactivity, we'll use `watches` to listen to one of the state variables and then modify it to see if the watchers are triggered:
+
+**In Vue 2.x**
+```js
+<template>
+  {{ list }} {{ myObj }}
+  <button @click="test">Test</button>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      list: [1, 2],
+      myObj: { firstName: 'Reg' }
+    };
+  },
+  watch: {
+    list: {
+      handler: () => {
+        console.log("watcher triggered");
+      },
+      deep: true
+    }
+  },
+  methods: {
+    test() {
+      list.value[3] = 3
+      myObj.value.lastName = 'Chiu'
+      delete myObj.value.firstName
+    }
+  }
+}
+</script>
+```
+
+None of the above three modifications — such as adding a new item to an array based on the index, adding a new item to an object, or deleting an item from the object — is reactive in Vue 2.x. Hence watchers won’t be triggered, or the DOM would be updated. We had to use the `vue.set()` or `vue.delete()` methods.
+
+**In Vue 3.x**
+These work directly without any helper functions.
+
+```js
+<template>
+  {{ list }} {{ myObj }}
+  <button @click="test">Test</button>
+</template>
+<script>
+import { ref } from 'vue'
+export default {
+  setup() {
+    let list = ref([1, 2])
+    let a = ref(0)
+    let myObj = ref({ firstName: 'Reg' })
+    function test() {
+      list.value[3] = 3
+      myObj.value.lastName = 'Chiu'
+      delete myObj.value.firstName
+    }
+    return { list, myObj, test }
+  }
+}
+</script>
+```
+
+## 7. Global mounting
+
+When you open `main.js` in the about project, you'll notice something different. We no longer use the Global Vue instance to install plugins and other libraries.
+
+Instead, you can see `createApp` method:
+
+```js
+import { createApp } from 'vue'
+import App from './App.vue'
+const myApp = createApp(App)
+myApp.use(/* plugin name */)
+myApp.use(/* plugin name */)
+myApp.use(/* plugin name */)
+myApp.mount('#app')
+```
+
+The advantage of this feature is that it protects the Vue application from third party libraries/plugins we use which might override or make changes to the global instance — mostly by using Mixins.
+
+Now with the `createApp` method, we install those plugins on a particular instance and not the global object.
+
+
+#### References
+
+[Vue.js](https://v3.vuejs.org/)
+
+[Vue.js 3 Tutorial by Example: Create Vue 3 App, Components, Router & Composition API](https://www.techiediaries.com/vue-3-tutorial/)
+
+[New features in Vue 3 and how to use them](https://blog.logrocket.com/new-features-in-vue-3-and-how-to-use-them/)
+
+[Exciting new features in Vue 3](https://vueschool.io/articles/vuejs-tutorials/exciting-new-features-in-vue-3/)
