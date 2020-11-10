@@ -2,9 +2,7 @@
   <hello-world msg="About Multiple v-model"></hello-world>
   <p>First name: {{ firstName }}</p>
   <p>Last name: {{ lastName }}</p>
-  <hello-multiple-vmodel 
-    v-model:first-name="firstName"
-    v-model:last-name="lastName" />
+  <hello-multiple-vmodel v-model:first-name="firstName" v-model:last-name="lastName" />
 </template>
 
 <script>
@@ -21,5 +19,5 @@ export default {
       lastName: 'Chiu'
     }
   }
-};
+}
 </script>

@@ -3,22 +3,15 @@
 </template>
 
 <script>
-import {
-  onBeforeMount,
-  onMounted,
-  onBeforeUpdate,
-  onUpdated,
-  onBeforeUnmount,
-  onUnmounted,
-} from 'vue'
+import { onBeforeMount, onMounted, onBeforeUpdate, onUpdated, onBeforeUnmount, onUnmounted } from 'vue'
 export default {
   name: 'HelloWorld',
   props: {
     msg: String
   },
   setup(props, context) {
-    console.log("props", props)
-    console.log("context", context)
+    console.log('props', props)
+    console.log('context', context)
     onBeforeMount(() => {
       console.log('Before Mount!')
     })

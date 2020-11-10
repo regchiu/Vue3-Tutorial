@@ -6,26 +6,26 @@ import AboutBetterReactivity from '../views/AboutBetterReactivity.vue'
 
 const routes = [
   {
-    path: "/",
-    name: "Home",
+    path: '/',
+    name: 'Home',
     component: Home
   },
   {
-    path: "/about-composition-api",
-    name: "AboutCompositionApi",
+    path: '/about-composition-api',
+    name: 'AboutCompositionApi',
     component: AboutCompositionApi
   },
   {
-    path: "/about-multiple-vmodel",
-    name: "AboutMultipleVmodel",
+    path: '/about-multiple-vmodel',
+    name: 'AboutMultipleVmodel',
     component: AboutMultipleVmodel
   },
   {
-    path: "/about-better-reactivity",
-    name: "AboutBetterReactivity",
+    path: '/about-better-reactivity',
+    name: 'AboutBetterReactivity',
     component: AboutBetterReactivity
   }
-];
+]
 
 const router = createRouter({
   history: createWebHistory(),
