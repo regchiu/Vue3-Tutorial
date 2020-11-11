@@ -359,6 +359,9 @@ The advantage of this feature is that it protects the Vue application from third
 
 Now with the `createApp` method, we install those plugins on a particular instance and not the global object.
 
+## 8. No filters
+
+In 3.x, filters are removed and no longer supported. Instead, we recommend replacing them with method calls or computed properties.
 
 #### References
 

@@ -27,14 +27,18 @@
   >
     {{ item }}
   </div>
+  <h4>Todo List</h4>
+  <todo-list />
 </template>
 
 <script>
 import HelloWorld from '../components/HelloWorld.vue'
+import TodoList from '../components/TodoList/TodoList.vue'
 import { ref, reactive, watch, readonly, onMounted, onBeforeUpdate } from 'vue'
 export default {
   components: {
-    HelloWorld
+    HelloWorld,
+    TodoList
   },
   setup() {
     const count = ref(0)
