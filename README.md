@@ -367,8 +367,11 @@ In 3.x, filters are removed and no longer supported. Instead, we recommend repla
 
 [Vue.js](https://v3.vuejs.org/)
 
+[Vue Composition API](https://composition-api.vuejs.org/)
+
 [Vue.js 3 Tutorial by Example: Create Vue 3 App, Components, Router & Composition API](https://www.techiediaries.com/vue-3-tutorial/)
 
 [New features in Vue 3 and how to use them](https://blog.logrocket.com/new-features-in-vue-3-and-how-to-use-them/)
 
 [Exciting new features in Vue 3](https://vueschool.io/articles/vuejs-tutorials/exciting-new-features-in-vue-3/)
+
